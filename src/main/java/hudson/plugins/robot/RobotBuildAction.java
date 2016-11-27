@@ -44,6 +44,7 @@ import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 
+import io.jenkins.blueocean.rest.annotation.Capability;
 import org.apache.commons.lang.StringUtils;
 import org.kohsuke.stapler.StaplerProxy;
 import org.kohsuke.stapler.StaplerRequest;
@@ -51,6 +52,7 @@ import org.kohsuke.stapler.StaplerResponse;
 
 import com.thoughtworks.xstream.XStream;
 
+@Capability("io.jenkins.actions.testResult")
 public class RobotBuildAction extends AbstractTestResultAction<RobotBuildAction> implements StaplerProxy {
 
 	private static final Logger logger = Logger.getLogger(RobotBuildAction.class.getName());
