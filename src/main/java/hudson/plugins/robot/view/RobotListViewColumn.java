@@ -45,7 +45,7 @@ public class RobotListViewColumn extends ListViewColumn {
 		if(build != null) {
 			RobotBuildAction action = (RobotBuildAction)build.getAction(RobotBuildAction.class);
 			if(action != null) {
-				return action.getResult();
+				return action.getRobotResult();
 			}
 		}
 		return null;

@@ -24,7 +24,11 @@ import hudson.plugins.robot.model.RobotCaseResult;
 import hudson.plugins.robot.model.RobotResult;
 import hudson.plugins.robot.model.RobotSuiteResult;
 
+import hudson.tasks.junit.CaseResult;
+import hudson.tasks.junit.SuiteResult;
 import hudson.tasks.test.AbstractTestResultAction;
+import hudson.tasks.test.TestObject;
+import hudson.tasks.junit.TestResult;
 import hudson.util.ChartUtil;
 import hudson.util.Graph;
 import hudson.util.HeapSpaceStringConverter;
@@ -34,6 +38,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.Calendar;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -126,7 +131,11 @@ public class RobotBuildAction extends AbstractTestResultAction<RobotBuildAction>
 	/**
 	 * Returns Robotresult. If not in memory loads it from disk.
 	 */
-	public synchronized RobotResult getResult() {
+	public Object getResult() {
+		return getResultInternal();
+	}
+
+	public RobotResult getRobotResult() {
 		RobotResult returnable;
 
 		if (result != null) return result;
@@ -143,6 +152,32 @@ public class RobotBuildAction extends AbstractTestResultAction<RobotBuildAction>
 			cacheRobotResult(returnable);
 		}
 		return returnable;
+	}
+
+	/** Compatibility for Blue Ocean */
+	private TestResult getResultInternal() {
+		TestResult result = new TestResult();
+
+		RobotBuildAction action = run.getAction(RobotBuildAction.class);
+
+		List<RobotSuiteResult> allSuites = action.getRobotResult().getAllSuites();
+		for (RobotSuiteResult suite : allSuites) {
+			SuiteResult blueSuite = new SuiteResult(suite.getName(), suite.getLogFile(), null);
+
+			blueSuite.setParent(result);
+
+			List<RobotCaseResult> allCases = suite.getAllCases();
+			for (RobotCaseResult caseResult : allCases) {
+				CaseResult cr = new CaseResult(blueSuite, caseResult.getName(), caseResult.getErrorMsg());
+
+				cr.setParent(result);
+
+				blueSuite.addCase(cr);
+			}
+			result.add(blueSuite);
+		}
+		result.tally();
+		return result;
 	}
 
 	private void cacheRobotResult(RobotResult result) {
@@ -179,7 +214,7 @@ public class RobotBuildAction extends AbstractTestResultAction<RobotBuildAction>
 	 * @return percent number
 	 */
 	public double getOverallPassPercentage(){
-		return getResult().getPassPercentage(false);
+		return 0;
 	}
 
 	/**
@@ -187,7 +222,7 @@ public class RobotBuildAction extends AbstractTestResultAction<RobotBuildAction>
 	 * @return percent number
 	 */
 	public double getCriticalPassPercentage() {
-		return getResult().getPassPercentage(true);
+		return 0;
 	}
 
 	/**
@@ -196,7 +231,7 @@ public class RobotBuildAction extends AbstractTestResultAction<RobotBuildAction>
 	 * @return test object
 	 */
 	public RobotTestObject findObjectById(String id) {
-		return getResult().findObjectById(id);
+		return getRobotResult().findObjectById(id);
 	}
 
 	/**
@@ -204,7 +239,7 @@ public class RobotBuildAction extends AbstractTestResultAction<RobotBuildAction>
 	 */
 	public Object getTarget(){
 		if(reportFileName != null) return this;
-		return getResult();
+		return getRobotResult();
 	}
 
 	/**
@@ -256,7 +291,7 @@ public class RobotBuildAction extends AbstractTestResultAction<RobotBuildAction>
 		if (maxBuildsReq == null || maxBuildsReq.isEmpty())
 			maxBuildsReq = "0"; // show all builds by default
 
-		Graph g = RobotGraphHelper.createTestResultsGraphForTestObject(getResult(),
+		Graph g = RobotGraphHelper.createTestResultsGraphForTestObject(getRobotResult(),
 				Boolean.valueOf(req.getParameter("zoomSignificant")), false,
 				Boolean.valueOf(req.getParameter("hd")),
 				Boolean.valueOf(req.getParameter("failedOnly")),
@@ -278,12 +313,12 @@ public class RobotBuildAction extends AbstractTestResultAction<RobotBuildAction>
 
 	@Override
 	public int getFailCount() {
-		return (int) getResult().getOverallFailed();
+		return getResultInternal().getFailCount();
 	}
 
 	@Override
 	public int getTotalCount() {
-		return (int) getResult().getOverallTotal();
+		return (int) getResultInternal().getTotalCount();
 	}
 
 	/**

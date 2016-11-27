@@ -22,7 +22,7 @@ public class RobotTotalTokenMacro extends DataBoundTokenMacro {
 			InterruptedException {
 		RobotBuildAction action = context.getAction(RobotBuildAction.class);
 		if(action!=null){
-			RobotResult result = action.getResult();
+			RobotResult result = action.getRobotResult();
 			if(onlyCritical)
 				return Long.toString(result.getCriticalTotal());
 			else

@@ -33,7 +33,7 @@ public class RobotResultAggregator extends MatrixAggregator {
 		for (MatrixRun run : build.getExactRuns()) {
 			RobotBuildAction robotAction = run.getAction(RobotBuildAction.class);
 			if (robotAction != null){
-				action.addResult(robotAction.getResult());
+				action.addResult(robotAction.getRobotResult());
 			}
 		}
 		build.addAction(action);

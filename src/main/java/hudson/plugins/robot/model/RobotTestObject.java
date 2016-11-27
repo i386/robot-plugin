@@ -152,7 +152,7 @@ public abstract class RobotTestObject extends AbstractModelObject implements Ser
 	 */
 	public RobotTestObject getResultInBuild(AbstractBuild<?,?> build) {
 		parentAction = build.getAction(RobotBuildAction.class);
-		String id = getRelativeId(getParentAction().getResult());
+		String id = getRelativeId(getParentAction().getRobotResult());
 		return (parentAction == null) ? null : parentAction.findObjectById(id);
 	}
 

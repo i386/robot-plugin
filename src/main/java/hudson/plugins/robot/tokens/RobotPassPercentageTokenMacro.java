@@ -27,7 +27,7 @@ public class RobotPassPercentageTokenMacro extends DataBoundTokenMacro {
 		RobotBuildAction action = context.getAction(RobotBuildAction.class);
 		
 		if (action!=null){
-			RobotResult result = action.getResult();
+			RobotResult result = action.getRobotResult();
 			return String.valueOf(result.getPassPercentage(onlyCritical));
 		}
 		

@@ -426,7 +426,7 @@ public class RobotPublisherSystemTest extends HudsonTestCase {
 		if (lastRun == null) fail("No build including Robot results was found");
 
 		RobotBuildAction action = lastRun.getAction(RobotBuildAction.class);
-		RobotResult result = action.getResult();
+		RobotResult result = action.getRobotResult();
 		RobotCaseResult firstFailed = result.getAllFailedCases().get(0);
 		assertEquals(2,firstFailed.getFailedSince());
 	}

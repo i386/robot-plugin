@@ -50,28 +50,28 @@ limitations under the License.
     </tr>
     <tr>
       <th>Critical tests</th>
-      <td class="table-upper-row" style="border-left:0px;">${attrs.action.result.criticalTotal}</td>
+      <td class="table-upper-row" style="border-left:0px;">${attrs.action.robotResult.criticalTotal}</td>
       <td class="table-upper-row">
         <j:set var="criticalFails" value="pass" />
-        <j:if test="${attrs.action.result.criticalFailed > 0}">
+        <j:if test="${attrs.action.robotResult.criticalFailed > 0}">
            <j:set var="criticalFails" value="fail" />
         </j:if>
-        <span class="${criticalFails}">${attrs.action.result.criticalFailed}</span>
+        <span class="${criticalFails}">${attrs.action.robotResult.criticalFailed}</span>
       </td>
-      <td class="table-upper-row">${attrs.action.result.criticalPassed}</td>
+      <td class="table-upper-row">${attrs.action.robotResult.criticalPassed}</td>
       <td class="table-upper-row">${attrs.action.criticalPassPercentage}</td>
     </tr>
     <tr>
       <th>All tests</th>
-      <td style="border-left:0px;">${attrs.action.result.overallTotal}</td>
+      <td style="border-left:0px;">${attrs.action.robotResult.overallTotal}</td>
       <td>
         <j:set var="totalFails" value="pass" />
-        <j:if test="${attrs.action.result.overallFailed > 0}">
+        <j:if test="${attrs.action.robotResult.overallFailed > 0}">
            <j:set var="totalFails" value="fail" />
         </j:if>
-        <span class="${totalFails}">${attrs.action.result.overallFailed}</span>
+        <span class="${totalFails}">${attrs.action.robotResult.overallFailed}</span>
       </td>
-      <td>${attrs.action.result.overallPassed}</td>
+      <td>${attrs.action.robotResult.overallPassed}</td>
       <td>${attrs.action.overallPassPercentage}</td>
     </tr>
   </table>

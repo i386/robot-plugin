@@ -375,7 +375,7 @@ public class RobotResult extends RobotTestObject {
 		while((build = build.getPreviousBuild()) != null) {
 			RobotBuildAction parentAction = build.getAction(getParentAction().getClass());
 			if(parentAction != null) {
-				return parentAction.getResult();
+				return parentAction.getRobotResult();
 			}
 		}
 		return null;

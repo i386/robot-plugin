@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.jenkins-ci.plugins</groupId>
     <artifactId>plugin</artifactId>
-    <version>1.619</version><!-- which version of Hudson is this plugin built against? -->
+    <version>2.17</version><!-- which version of Hudson is this plugin built against? -->
   </parent>
 
   <artifactId>robot</artifactId>
@@ -12,6 +12,10 @@
   <description>Shows Robot Framework test results in project</description>
   <packaging>hpi</packaging>
   <url>http://wiki.jenkins-ci.org/display/JENKINS/Robot+Framework+Plugin</url>
+
+  <properties>
+    <jenkins.version>2.7.1</jenkins.version>
+  </properties>
 
   <developers>
     <developer>
@@ -38,8 +42,18 @@
     <dependency>
       <groupId>org.jenkins-ci.plugins</groupId>
       <artifactId>junit</artifactId>
-      <version>1.9</version>
+      <version>1.20-SNAPSHOT</version>
     </dependency>
+    <dependency>
+      <groupId>io.jenkins.blueocean.rest.annotation</groupId>
+      <artifactId>capability-annotation</artifactId>
+      <version>1.2</version>
+    </dependency>
+      <dependency>
+          <groupId>io.jenkins.blueocean</groupId>
+          <artifactId>blueocean</artifactId>
+          <version>1.0.0-b13-SNAPSHOT</version>
+      </dependency>
     <dependency>
       <groupId>org.jenkins-ci.plugins</groupId>
       <artifactId>matrix-project</artifactId>
@@ -52,7 +66,7 @@
        <version>1.5.1</version>
        <optional>true</optional>
     </dependency>
-</dependencies>
+  </dependencies>
 
   <distributionManagement>
     <repository>

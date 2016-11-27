@@ -21,7 +21,7 @@ public class RobotFailedCasesTokenMacro extends DataBoundTokenMacro {
 			InterruptedException {
 		RobotBuildAction action = context.getAction(RobotBuildAction.class);
 		if (action!=null){
-			RobotResult result = action.getResult();
+			RobotResult result = action.getRobotResult();
 			StringBuilder builder = new StringBuilder();
 			
 			String newline = "";
